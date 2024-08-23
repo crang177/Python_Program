@@ -1,9 +1,22 @@
 import os
 import json
 from pathlib import Path
+import sys
 
 
 
+
+
+if os.name=='nt' :
+    os.system('')
+
+
+
+
+# def cursor_fixed(max_char):#光标固定函数
+
+
+    
 def gotoxy(x,y):#光标移动函数，利用了ANSI转义序列（跟操作系统和终端有关）
     print(f'\033[{y};{x}H',end="")
 
@@ -211,7 +224,7 @@ def User_Logined():#登录用户函数
 
     
     if Create_number=='1':
-        pass
+        User_login_file(user_login)
 
     else:
         os.system('cls')
@@ -224,11 +237,141 @@ def User_Logined():#登录用户函数
 
 
 
-def User_login_file():#登陆时访问json文件，读取用户信息和密码
+def User_login_file(user_login):#登陆时访问json文件，读取用户信息和密码
+    path=Path('D:/GitHub data/py/Python_Program/Json/Users.json')
+    with open(path,'r') as fp2:
+        User_List=json.loads(fp2.read())
+
+    while True :
+        count_name=0
+
+        for user in User_List :
+            if (user['name'])==user_login['name']:
+                User_name_Exist=1#用户名存在于文件时赋值为1
+                
+            else :
+                count_name+=1
+            if count_name==len(User_List) :#当未查找的次数为列表的元素数量时
+                User_name_Exist=2#当用户名不存在时赋值为2
+
+
+            if user['password']==user_login['password']:#判断密码
+                User_password_right=1#正确赋值为1
+                break
+                
+            else :
+                User_password_right=2#错误赋值为2
+                
+        if User_name_Exist==1 and User_password_right==1:#登录成功
+            os.system('cls')
+            break
+        else :#登录失败
+            os.system('cls')
+            gotoxy(15,8)
+            print('用户名或密码错误，请重输')
+            User_Logined()
+            break
+
+
+
+
+
+
+
+def Fengmian_2():#登录完成后的界面函数
+    Jiemian(56,20)
+
+    gotoxy(15,4)
+    print('学生成绩管理系统（简易版）')
+
+    gotoxy(20,9)
+    print("(1)查看学生成绩")
+
+    gotoxy(20,11)
+    print("(2)编辑学生成绩")
+
+    gotoxy(20,13)
+    print("(3)退出")
+
+    gotoxy(7,21)
+    print('请输入数字1,2或者3: [          ]')
+
+    gotoxy(29,21)
+    n=input()  
+
+    return n
+
+
+
+
+
+
+
+def Judgement_Second(Select_type_2):#判断选择是查看，还是编辑学生成绩
+    while True:
+        if Select_type_2=="1":
+            os.system('cls')
+            View_student_grades()#查看学生成绩
+            break
+
+        elif Select_type_2=="2":
+            os.system('cls')
+            Edit_student_grades()#编辑学生成绩
+            break
+
+        elif Select_type_2=="3":
+            quit()
+        else:
+            os.system('cls')
+            Select_type_2=Fengmian();
+
+
+
+
+
+
+
+
+class Student_grades:
+    def __init__(self,name,chinese,math,english):
+        self.name=name
+        self.chinese=chinese
+        self.math=math
+        self.english=english
+
+def View_student_grades():#查看学生成绩
     
+    path=Path('D:/GitHub data/py/Python_Program/txt/Students_Achievemrn.txt')
+    Row=2#行数
+    with open(path,'r') as fp3:
+        Student_grades_List=fp3.read().splitlines()
+        if Student_grades_List :
+            os.system('cls')
+            print('          语文    数学    英语    平均成绩')
+            for Student_grades in Student_grades_List:
+                    gotoxy(4,Row)
+                    print(f'{Student_grades}')
+                    Row+=1
+        else:
+            os.system('cls')
+            print("无学生成绩在系统中")
+            fanhui=input('输入1返回：')
+            if fanhui=='1':
+                os.system('cls')
+                Select_type_2=Fengmian_2()
+                Judgement_Second(Select_type_2)
 
 
 
+
+
+
+
+
+
+
+def Edit_student_grades():#编辑学生成绩
+    pass
                   
 
 
