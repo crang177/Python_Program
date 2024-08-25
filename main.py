@@ -16,44 +16,38 @@ PY.Judgement_Second(Select_type_2)
 
 
 
-# path=Path('D:/GitHub data/py/Python_Program/txt/Students_Achievemrn.txt')
-# ren={
-#     'name':'ghgasd',
-#     'ch':21,
-#     'math':54,
-#     'english':46,
-#     'Grade_point_average':55
 
-# }
-# with open(path,'a') as fp:
-#     c=0
-#     for i in ren.values():
-#             c+=1
-#             if c!=5:
-#                   fp.write(f'{i}    ')
-#             else:
-#                   fp.write(f'{i}\n')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       
     
 
 
 
 
 
-# path=Path('D:/GitHub data/py/Python_Program/txt/Students_Achievemrn.txt')
-# Row=2#行数
-# with open(path,'r') as fp3:
-#     Student_grades_List=fp3.read().splitlines()
-
-# print(Student_grades_List)
 
 
-# if Student_grades_List :
-#     #os.system('cls')
-#     #print('          语文    数学    英语    平均成绩')
-#     for Student_grades in Student_grades_List:
-#         PY.gotoxy(4,Row)
-#         print(f'{Student_grades}')
-#         Row+=1
+
+
+
+
+
+
+
 
 
 

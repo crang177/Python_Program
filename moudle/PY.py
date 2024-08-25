@@ -1,19 +1,39 @@
 import os
 import json
 from pathlib import Path
-import sys
 
 
 
 
 
 if os.name=='nt' :
-    os.system('')
+    os.system('')#启用ANSI转义序列
 
 
 
 
 # def cursor_fixed(max_char):#光标固定函数
+#     import sys
+
+# if os.name == 'nt':
+#     os.system('')
+
+# max_char=3
+# input_char=''
+
+# while len(input_char)<max_char:
+#     char=input()
+#     if len(input_char) < max_char:
+#         if char:
+#             input_char=char[0]
+#             print(char[0], end='', flush=True)
+
+#         else:
+#             print('\033[D', end='', flush=True)
+# print()
+# print(input_char)
+
+
 
 
     
@@ -139,11 +159,15 @@ def User_Registrated():#注册用户
     if Create_number=='1':
         User_Creation(user_new)
 
-    else:
+    elif Create_number=='2':
         os.system('cls')
         Fengmian()
         Select_type=Fengmian()
         Judgement_First(Select_type)
+    else :
+        os.system('cls')
+        User_Registrated()
+
 
 
 
@@ -173,7 +197,7 @@ def User_Creation(User_new):#用户注册函数，文件读写操作，参数是
         break
 
     with open(path,'w') as fp2:#将追加以后得到的列表Users_List储存到文件中
-        json.dump(Users_List,fp2)
+        json.dump(Users_List,fp2,indent=2)#indent=4表示缩进
 
     os.system('cls')#注册用户完成以后，清屏并回到第一个界面函数，并输入界面函数对应函数
     Select_type=Fengmian()
@@ -226,11 +250,15 @@ def User_Logined():#登录用户函数
     if Create_number=='1':
         User_login_file(user_login)
 
-    else:
+    elif Create_number=='2':
         os.system('cls')
         Fengmian()
         Select_type=Fengmian()
         Judgement_First(Select_type)
+    else:
+        os.system('cls')
+        User_Logined()
+
 
 
 
@@ -323,7 +351,33 @@ def Judgement_Second(Select_type_2):#判断选择是查看，还是编辑学生�
             quit()
         else:
             os.system('cls')
-            Select_type_2=Fengmian();
+            Select_type_2=Fengmian_2();
+
+
+
+
+
+
+
+def Fengmian_3():#查看学生成绩的界面函数
+    Jiemian(56,20)
+
+    gotoxy(15,4)
+    print('学生成绩管理系统（简易版）')
+
+    gotoxy(15,9)
+    print("请输入要查看学生成绩的班级：")
+
+    gotoxy(15,10)
+    print("(              )")
+
+    gotoxy(15,11)
+    print("( 例如：Class_1 )")
+
+    gotoxy(17,10)
+    class_which=input()  
+
+    return class_which
 
 
 
@@ -333,35 +387,190 @@ def Judgement_Second(Select_type_2):#判断选择是查看，还是编辑学生�
 
 
 class Student_grades:
-    def __init__(self,name,chinese,math,english):
+    def __init__(self,id,name,chinese,math,english):
+        self.id=id
         self.name=name
         self.chinese=chinese
         self.math=math
         self.english=english
 
-def View_student_grades():#查看学生成绩
-    
-    path=Path('D:/GitHub data/py/Python_Program/txt/Students_Achievemrn.txt')
-    Row=2#行数
-    with open(path,'r') as fp3:
-        Student_grades_List=fp3.read().splitlines()
-        if Student_grades_List :
+
+def View_student_grades():#按班级查看学生成绩
+    class_name=Fengmian_3()
+    with open(f'D:/GitHub data/py/Python_Program/Sudent_grades_Class/{class_name}.json','a') as fp:
+              pass
+    path=Path(f'D:/GitHub data/py/Python_Program/Sudent_grades_Class/{class_name}.json')
+    if os.path.getsize(path)==0:
+        with open(path,'w') as fp:
+            json.dump([],fp)
+
+    with  open(path,'r') as fp:
+        Student_grades_List=json.loads(fp.read())
+    if Student_grades_List==[]:
+        os.system('cls')
+        print("无学生成绩在系统中")
+        fanhui=input('输入1返回：')
+        if fanhui=='1':
             os.system('cls')
-            print('          语文    数学    英语    平均成绩')
-            for Student_grades in Student_grades_List:
-                    gotoxy(4,Row)
-                    print(f'{Student_grades}')
-                    Row+=1
-        else:
-            os.system('cls')
-            print("无学生成绩在系统中")
-            fanhui=input('输入1返回：')
+            Select_type_2=Fengmian_2()
+            Judgement_Second(Select_type_2)
+    else:
+        Row=2#行数
+        location=0
+        os.system('cls')
+        print('  id      姓名          语文    数学    英语    平均成绩')
+        print()
+        for i in Student_grades_List:
+            for j in  i.values():
+                location+=1
+                if location==1:
+                    gotoxy(1,Row)
+                    print(f'{j}',end='')
+                elif location==2:
+                    gotoxy(11,Row)
+                    print(f'{j}',end='')
+                elif location==3:
+                    gotoxy(25,Row)
+                    print(f'{j}',end='')
+                elif location==4:
+                    gotoxy(33,Row)
+                    print(f'{j}',end='')
+                elif location==5:
+                    gotoxy(41,Row)
+                    print(f'{j}',end='')
+                elif location==6:
+                    gotoxy(49,Row)
+                    print(f'{j}')
+            location=0
+            Row+=1
+
+        print()
+        while True:
+            fanhui=input('输入1返回: ')
             if fanhui=='1':
                 os.system('cls')
                 Select_type_2=Fengmian_2()
                 Judgement_Second(Select_type_2)
+                break
+            else:
+                print('\033[k')#清除当前行
+                
+
+        
+        
 
 
+                
+
+
+
+
+
+
+
+
+def Class_max_score(Student_grades_List):#班级最高分数
+    pass
+
+def Class_min_score(Student_grades_List):#班级最低分数
+    pass
+def Class_average_score(Student_grades_List):#班级平均分数
+    pass
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+def Fengmian_4():#编辑学生成绩的封面函数
+    Jiemian(56,20)
+
+    gotoxy(15,4)
+    print('学生成绩管理系统（简易版）')
+
+    gotoxy(20,9)
+    print("(1)修改学生成绩")
+
+    gotoxy(20,11)
+    print("(2)添加学生成绩")
+
+    gotoxy(20,13)
+    print("(3)删除学生成绩")
+
+    gotoxy(20,15)
+    print("(4)返回")
+
+    gotoxy(7,21)
+    print('请输入数字1,2,3或者4: [          ]')
+
+    gotoxy(31,21)
+    n=input()  
+
+    return n
 
 
 
@@ -371,13 +580,139 @@ def View_student_grades():#查看学生成绩
 
 
 def Edit_student_grades():#编辑学生成绩
-    pass
+    Select_type_3=Fengmian_4()
+    Judgement_Third(Select_type_3)
+
+            
+        
+        
+    
+
+
+def Judgement_Third(Select_type_3):#判断选择是修改，还是添加学生成绩
+    while True:
+        if Select_type_3=="1":#修改学生成绩
+            pass
+            break
+        elif Select_type_3=="2":#添加学生成绩
+            class_name=Fengmian_6()
+            Add_student_grades(class_name)
+            break
+        elif Select_type_3=="3":#删除学生成绩
+            pass
+        elif Select_type_3=="4":#返回
+            os.system('cls')
+            Select_type_2=Fengmian_2()
+            Judgement_Second(Select_type_2)
+            break
+        else:
+            os.system('cls')
+            Select_type_3=Fengmian_4()
+
+
+
+
+
+
+
+def Fengmian_6():#添加学生成绩的界面函数
+    os.system('cls')
+    Jiemian(56,20)
+
+    gotoxy(15,4)
+    print('学生成绩管理系统（简易版）')
+
+    gotoxy(15,9)
+    print("请输入要添加学生成绩的班级：")
+
+    gotoxy(15,10)
+    print("(              )")
+
+    gotoxy(15,11)
+    print("( 例如：Class_1 )")
+
+    gotoxy(17,10)
+    class_which=input()  
+
+    return class_which
+
+
+
+
+
+
+
+def Add_student_grades(class_name):#添加学生成绩
+    with open(f'D:/GitHub data/py/Python_Program/Sudent_grades_Class/{class_name}.json','a') as fp:
+       pass
+    path=Path(f'D:/GitHub data/py/Python_Program/Sudent_grades_Class/{class_name}.json')
+
+    if os.path.getsize(path)==0:#如果path文件为空，则写入一个空列表
+        with open(path, 'w') as file:
+                json.dump([], file)
+
+    with open(path,'r',encoding='utf-8') as fp:
+        student_grades_list=json.loads(fp.read())
+
+    Id_used=0
+    while True:
+        os.system('cls')
+        print("任何时候输入0将退出添加学生成绩,返回编辑学生成绩界面")
+        if Id_used==1:
+            print('学号已存在，请重新输入！！！')
+        Id_used=0
+        student={'Id':'','name':'','Chinese':'','math':'','English':'','average':''}
+
+        id=eval(input("学生的ID: "))
+        if id==0:
+            os.system('cls')
+            Select_type_3=Fengmian_4()
+            Judgement_Third(Select_type_3)           
+        name=input("学生的名字：")
+        if name=='0':
+            os.system('cls')
+            Select_type_3=Fengmian_4()
+            Judgement_Third(Select_type_3)
+        Chinese=eval(input("学生的语文成绩："))
+        if Chinese==0:
+            os.system('cls')
+            Select_type_3=Fengmian_4()
+            Judgement_Third(Select_type_3)
+        math=eval(input("学生的数学成绩："))
+        if math==0:
+            os.system('cls')
+            Select_type_3=Fengmian_4()
+            Judgement_Third(Select_type_3)
+        English=eval(input("学生的英语成绩："))
+        if English==0:
+            os.system('cls')
+            Select_type_3=Fengmian_4()
+            Judgement_Third(Select_type_3)
+        print()
+
+        student['Id']=id
+        for i in student_grades_list:
+            if i['Id']==student['Id']:
+                Id_used=1
+                break
+        if Id_used==1:
+            continue
+
+        student['name']=name
+        student['Chinese']=Chinese
+        student['math']=math
+        student['English']=English
+        student['average']=round((Chinese+math+English)/3,2)
+
+        student_grades_list.append(student)
+
+        with open(path,'w') as fp :
+            json.dump(student_grades_list,fp,indent=2)
+                    
                   
 
 
-
-
-
+    
 
 
 
