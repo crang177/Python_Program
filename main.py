@@ -25,13 +25,6 @@ PY.Judgement_Second(Select_type_2)
 
 
 
-
-
-
-
-
-
-
        
     
 

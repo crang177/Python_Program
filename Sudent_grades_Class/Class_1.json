@@ -1,50 +1,26 @@
 [
-  {
-    "Id": 100001,
-    "name": "ranGuang",
-    "Chinese": 116,
-    "math": 103,
-    "English": 120,
-    "average": 113.0
-  },
-  {
-    "Id": 100002,
-    "name": "yang",
-    "Chinese": 132,
-    "math": 125,
-    "English": 144,
-    "average": 133.67
-  },
-  {
-    "Id": 100003,
-    "name": "ji",
-    "Chinese": 121,
-    "math": 120,
-    "English": 110,
-    "average": 117.0
-  },
-  {
-    "Id": 100004,
-    "name": "nc",
-    "Chinese": 121,
-    "math": 142,
-    "English": 136,
-    "average": 133.0
-  },
-  {
-    "Id": 100005,
-    "name": "faa",
-    "Chinese": 98,
-    "math": 95,
-    "English": 123,
-    "average": 105.33
-  },
-  {
-    "Id": 100006,
-    "name": "sdf",
-    "Chinese": 102,
-    "math": 103,
-    "English": 113,
-    "average": 106.0
-  }
+    {
+        "Id": 100004,
+        "name": "nc",
+        "Chinese": 0,
+        "math": 0,
+        "English": 136,
+        "average": 45.33
+    },
+    {
+        "Id": 100005,
+        "name": "faa",
+        "Chinese": 98,
+        "math": 95,
+        "English": 123,
+        "average": 105.33
+    },
+    {
+        "Id": 100006,
+        "name": "sdf",
+        "Chinese": 102,
+        "math": 103,
+        "English": 113,
+        "average": 106.0
+    }
 ]

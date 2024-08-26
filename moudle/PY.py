@@ -105,6 +105,8 @@ def Judgement_First(Select_type):#判断第一个界面函数的输出值，选�
             break
 
         elif Select_type=="3":
+            os.system('cls')
+            print("学生成绩管理系统（简易版）已关闭")
             quit()
         else:
             os.system('cls')
@@ -348,6 +350,8 @@ def Judgement_Second(Select_type_2):#判断选择是查看，还是编辑学生�
             break
 
         elif Select_type_2=="3":
+            os.system('cls')
+            print("学生成绩管理系统（简易版）已关闭")
             quit()
         else:
             os.system('cls')
@@ -372,7 +376,7 @@ def Fengmian_3():#查看学生成绩的界面函数
     print("(              )")
 
     gotoxy(15,11)
-    print("( 例如：Class_1 )")
+    print("( 例如: Class_1 )")
 
     gotoxy(17,10)
     class_which=input()  
@@ -592,14 +596,14 @@ def Edit_student_grades():#编辑学生成绩
 def Judgement_Third(Select_type_3):#判断选择是修改，还是添加学生成绩
     while True:
         if Select_type_3=="1":#修改学生成绩
-            pass
+            Revise_student_grades()
             break
         elif Select_type_3=="2":#添加学生成绩
             class_name=Fengmian_6()
             Add_student_grades(class_name)
             break
         elif Select_type_3=="3":#删除学生成绩
-            pass
+            delete_student_grades()
         elif Select_type_3=="4":#返回
             os.system('cls')
             Select_type_2=Fengmian_2()
@@ -608,6 +612,134 @@ def Judgement_Third(Select_type_3):#判断选择是修改，还是添加学生�
         else:
             os.system('cls')
             Select_type_3=Fengmian_4()
+
+
+
+
+
+
+
+def Fengmian_5():#修改学生成绩的界面函数
+    os.system('cls')
+    Jiemian(56,20)
+
+    gotoxy(15,4)
+    print('学生成绩管理系统（简易版）')
+
+    gotoxy(15,9)
+    print("请输入要修改学生成绩的班级：")
+
+    gotoxy(15,10)
+    print("(              )")
+
+    gotoxy(15,11)
+    print("( 例如:Class_1 )")
+
+    gotoxy(17,10)
+    class_which=input()  
+
+    return class_which
+
+
+
+
+
+
+
+
+
+
+def Revise_student_grades():#修改学生成绩
+    class_name=Fengmian_5()
+    with open(f'Sudent_grades_Class/{class_name}.json','a'):
+        pass
+    path=Path(f'Sudent_grades_Class/{class_name}.json')
+
+    if os.path.getsize(path)==0:
+        with open(path,'w') as fp:
+            json.dump([],fp)
+    with open(path,'r') as fp:
+        student_grades_list=json.loads(fp.read())
+
+    os.system('cls')
+    print("输入要修改成绩的学生的信息:")
+    Id_revise=eval(input('  Id:'))
+    print('  要修改的科目成绩:')
+    print('    (1)语文')
+    print('    (2)数学')
+    print('    (3)英语')
+    gotoxy(3,8)
+    print('(输入1,2或者3)')
+    gotoxy(1,7)
+    subject_revise=input('  输入要修改的科目：')
+
+
+    list_length=len(student_grades_list)
+    number_class_student=0
+    if list_length==0:
+        os.system('cls')
+        print(f'学号为{Id_revise}的学生不存在')
+        fanhui=input('输入1返回继续修改,输入2返回至编辑学生成绩界面: ')
+        if fanhui=='1':
+            os.system('cls')
+            Revise_student_grades()
+        elif fanhui=='2':
+            os.system('cls')
+            Select_type_3=Fengmian_4()
+            Judgement_Third(Select_type_3)
+    else:
+        for i in student_grades_list:    
+            number_class_student+=1
+            if i['Id']==Id_revise:
+                os.system('cls')
+                if subject_revise=='1':
+                    i['Chinese']=eval(input('要修改语文成绩为: '))
+                elif subject_revise=='2':
+                    i['math']=eval(input('要修改数学成绩为: '))
+                elif subject_revise=='3':
+                    i['English']=eval(input('要修改英语成绩为: '))
+                else:
+                    Revise_student_grades()
+                i['average']=round((i['Chinese']+i['math']+i['English'])/3,2)
+
+                with open(path,'w') as fp:
+                    json.dump(student_grades_list,fp,indent=4)
+
+                print('成绩修改成功！！')
+                print()
+                fanhui=input('输入1返回继续修改,输入2返回至编辑学生成绩界面: ')
+                if fanhui=='1':
+                    os.system('cls')
+                    Revise_student_grades()
+                elif fanhui=='2':
+                    os.system('cls')
+                    Select_type_3=Fengmian_4()
+                    Judgement_Third(Select_type_3) 
+                break
+            
+            if list_length==number_class_student:
+                print(f'学号为{Id_revise}的学生不存在')
+                fanhui=input('输入1返回继续修改,输入2返回至编辑学生成绩界面: ')
+                if fanhui=='1':
+                    os.system('cls')
+                    Revise_student_grades()
+                elif fanhui=='2':
+                    os.system('cls')
+                    Select_type_3=Fengmian_4()
+                    Judgement_Third(Select_type_3) 
+
+                
+
+
+    
+
+
+
+
+
+
+
+
 
 
 
@@ -629,7 +761,7 @@ def Fengmian_6():#添加学生成绩的界面函数
     print("(              )")
 
     gotoxy(15,11)
-    print("( 例如：Class_1 )")
+    print("( 例如:Class_1 )")
 
     gotoxy(17,10)
     class_which=input()  
@@ -707,9 +839,164 @@ def Add_student_grades(class_name):#添加学生成绩
         student_grades_list.append(student)
 
         with open(path,'w') as fp :
-            json.dump(student_grades_list,fp,indent=2)
+            json.dump(student_grades_list,fp,indent=4)
+
+
+
+
+
+
+
+def Fengmian_7():#删除学生成绩的界面函数
+    os.system('cls')
+    student_delete=[]
+    Jiemian(56,20)
+
+    gotoxy(15,4)
+    print('学生成绩管理系统（简易版）')
+
+    gotoxy(15,9)
+    print("请输入要删除学生成绩的班级：")
+
+    gotoxy(15,10)
+    print("(              )")
+
+    gotoxy(15,11)
+    print("( 例如: Class_1 )")
+    gotoxy(17,10)
+    class_name=input()
+
+    gotoxy(15,13)
+    print('请输入要删除学生的id: ')
+
+    gotoxy(15,14)
+    print("(                  )")
+
+    gotoxy(17,14)
+    Id_delete=eval(input())
+    student_delete.append(class_name)
+    student_delete.append(Id_delete)
+    return student_delete
+    
+
+      
+
+def delete_student_grades():
+    student_delete=Fengmian_7()
+    class_name=student_delete[0]
+    Id_delete=student_delete[1]
+    
+    with open (f'Sudent_grades_Class/{class_name}.json','a') as fp:
+        pass
+    path=Path(f'Sudent_grades_Class/{class_name}.json')
+
+    if os.path.getsize(path)==0:
+        with open(path,'w') as fp:
+            json.dump([],fp)
+
+    with open(path,'r') as fp:
+        student_grades_list=json.loads(fp.read())
+    list_length=len(student_grades_list)
+    number_class_student=0
+
+    if list_length==0 :
+        os.system('cls')
+        print(f'未查找到学号为{Id_delete}的学生成绩')
+        fanhui=input('输入1返回继续删除,输入2返回至编辑学生成绩界面: ')
+        if fanhui=='1':
+            os.system('cls')
+            delete_student_grades()
+        elif fanhui=='2':
+            os.system('cls')
+            Select_type_3=Fengmian_4()
+            Judgement_Third(Select_type_3)
+    
+    else:
+        for i in student_grades_list:
+            number_class_student+=1
+
+            if i['Id']==Id_delete:
+                del student_grades_list[number_class_student-1]
+                with open(path,'w') as fp:
+                    json.dump(student_grades_list,fp,indent=4)
+                
+                os.system('cls')
+                location=0
+                print('被删除学生的信息：')
+                print('  id      姓名          语文    数学    英语    平均成绩')
+                for j in i.values():
+                    location+=1
+                    if location==1:
+                        gotoxy(1,3)
+                        print(f'{j}',end='')
+                    elif location==2:
+                        gotoxy(11,3)
+                        print(f'{j}',end='')
+                    elif location==3:
+                        gotoxy(25,3)
+                        print(f'{j}',end='')
+                    elif location==4:
+                        gotoxy(33,3)
+                        print(f'{j}',end='')
+                    elif location==5:
+                        gotoxy(41,3)
+                        print(f'{j}',end='')
+                    elif location==6:
+                        gotoxy(49,3)
+                        print(f'{j}')
+                location=0
+                print("删除成功！")
+
+                fanhui=input('输入1返回继续删除,输入2返回至编辑学生成绩界面: ')
+                if fanhui=='1':
+                    os.system('cls')
+                    delete_student_grades()
+                elif fanhui=='2':
+                    os.system('cls')
+                    Select_type_3=Fengmian_4()
+                    Judgement_Third(Select_type_3) 
+                break
+            elif list_length==number_class_student :
+                os.system('cls')
+                print(f'未查找到学号为{Id_delete}的学生成绩')
+                fanhui=input('输入1返回继续删除,输入2返回至编辑学生成绩界面: ')
+                if fanhui=='1':
+                    os.system('cls')
+                    delete_student_grades()
+                elif fanhui=='2':
+                    os.system('cls')
+                    Select_type_3=Fengmian_4()
+                    Judgement_Third(Select_type_3) 
+
+
+
+
+
+
+            
+
+
+
+
+
+
+
+
+
+
                     
                   
+
+
+
+
+
+
+
+
+
+
+
 
 
     
