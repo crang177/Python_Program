@@ -401,9 +401,9 @@ class Student_grades:
 
 def View_student_grades():#按班级查看学生成绩
     class_name=Fengmian_3()
-    with open(f'D:/GitHub data/py/Python_Program/Sudent_grades_Class/{class_name}.json','a') as fp:
+    with open(f'Sudent_grades_Class/{class_name}.json','a') as fp:
               pass
-    path=Path(f'D:/GitHub data/py/Python_Program/Sudent_grades_Class/{class_name}.json')
+    path=Path(f'Sudent_grades_Class/{class_name}.json')
     if os.path.getsize(path)==0:
         with open(path,'w') as fp:
             json.dump([],fp)
@@ -775,9 +775,9 @@ def Fengmian_6():#添加学生成绩的界面函数
 
 
 def Add_student_grades(class_name):#添加学生成绩
-    with open(f'D:/GitHub data/py/Python_Program/Sudent_grades_Class/{class_name}.json','a') as fp:
+    with open(f'Sudent_grades_Class/{class_name}.json','a') as fp:
        pass
-    path=Path(f'D:/GitHub data/py/Python_Program/Sudent_grades_Class/{class_name}.json')
+    path=Path(f'Sudent_grades_Class/{class_name}.json')
 
     if os.path.getsize(path)==0:#如果path文件为空，则写入一个空列表
         with open(path, 'w') as file:
