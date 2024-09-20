@@ -22,5 +22,13 @@
         "math": 103,
         "English": 113,
         "average": 106.0
+    },
+    {
+        "Id": 100001,
+        "name": "as",
+        "Chinese": 1,
+        "math": 2,
+        "English": 3,
+        "average": 2.0
     }
 ]

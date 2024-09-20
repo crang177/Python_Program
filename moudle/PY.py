@@ -1,7 +1,7 @@
 import os
 import json
 from pathlib import Path
-
+import  pyinputplus as pyip
 
 
 
@@ -143,7 +143,7 @@ def User_Registrated():#注册用户
     gotoxy(14,9)
     user_name=input('用户名：')#获得用户名字，将值赋给字典user_new中的键'name'
     gotoxy(14,11)
-    user_password=input('密 码：')
+    user_password=pyip.inputPassword('密 码：')
     user_new={
         'name':user_name,
         'password':user_password,
@@ -234,7 +234,7 @@ def User_Logined():#登录用户函数
     gotoxy(14,9)
     user_name=input('用户名：')#获得用户名字，将值赋给字典user_logined中的键'name'
     gotoxy(14,11)
-    user_password=input('密 码：')
+    user_password=pyip.inputPassword('密 码：')
     user_login={
         'name':user_name,
         'password':user_password,
@@ -729,22 +729,6 @@ def Revise_student_grades():#修改学生成绩
                     Judgement_Third(Select_type_3) 
 
                 
-
-
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 def Fengmian_6():#添加学生成绩的界面函数
