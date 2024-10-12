@@ -5,6 +5,7 @@ import pyinputplus as pyip
 from pathlib import Path
 from ansilib import ansi
 import hashlib
+import shelve
 
 
 os.system("cls")
@@ -24,6 +25,19 @@ def password_hexdigest(Password):#md5加密
     password=[Password,userPassword]
     return password
 
+def save_password(password):#保存原来真实的密码（二进制）
+    shelffile=shelve.open("mm")
+    shelffile["password"]=password
+    shelffile.close()
+
+
+def read_password():#读取原来真实的密码
+    shelffile=shelve.open("mm")
+    password=shelffile["password"]
+    shelffile.close()
+    return password
+
+
 def user_exist():#判断账号是否存在
     with open("user.json","a",encoding="utf-8"):
         path=Path("user.json")
@@ -33,19 +47,19 @@ def user_exist():#判断账号是否存在
             json.dump([],fp)
         id,Password=user_name_password()
         password1,password2=password_hexdigest(Password)#1为未加密的，2为加密后的密码
+        save_password(password1)
         user={
             f'{id}':f'{password2}',
         }
-    
         user_list=[user]
         with open("user.json","w",encoding="utf-8") as fp:
             json.dump(user_list,fp)
-
     with open("user.json","r",encoding="utf-8") as fp:
         list_dictionary=json.loads(fp.read())
         dictionary=list_dictionary[0]
-        for i in dictionary.keys():
-            User=[i,password1]  
+    password1=read_password()
+    for i in dictionary.keys():
+        User=[i,password1]  
     return User
 
 
