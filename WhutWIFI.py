@@ -13,7 +13,7 @@ os.system("cls")
 
 def user_name_password():#输入账号密码
     user_id=pyip.inputInt(prompt="请输入你的用户名：")
-    user_password=pyip.inputStr(prompt="请输入你的密  码：")
+    user_password=pyip.inputPassword(prompt="请输入你的密  码：")
     user_massage=[user_id,user_password]
     return user_massage
 
@@ -99,7 +99,7 @@ def main():
     print("登录成功")
     ansi.text_reset()
     time.sleep(1)
-    quit()
+   
 
 
 if __name__=="__main__":
