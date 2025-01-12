@@ -9,7 +9,7 @@ import re
 
 def get_Time_Sign():#获取加密后的sign（构造加密函数）
     mysticTime=int(time.time()*1000)
-    string=f"client=fanyideskweb&mysticTime={mysticTime}&product=webfanyi&key=fsdsogkndfokasodnaso"  #sign加密前的字符串()#fsdsogkndfokasodnaso要抓包得到，有两个值，选择第二个（第一个为asdjnjfenknafdfsdfsd#第一个url的sign的key=），也可以在第一个url中获得“"https://dict.youdao.com/webtranslate/key?keyid=webfanyi-key-getter&sign=823beceb3a00c3cd2e42323fda20056c&client=fanyideskweb&product=webfanyi&appVersion=1.0.0&vendor=web&pointParam=client,mysticTime,product&mysticTime=1730355400284&keyfrom=fanyi.web&mid=1&screen=1&model=1&network=wifi&abtest=0&yduuid=abcdefg”"
+    string=f"client=fanyideskweb&mysticTime={mysticTime}&product=webfanyi&key=Vy4EQ1uwPkUoqvcP1nIu6WiAjxFeA3Y9"  #sign加密前的字符串()#fsdsogkndfokasodnaso要抓包得到，有两个值，选择第二个（第一个为asdjnjfenknafdfsdfsd#第一个url的sign的key=），也可以在第一个url中获得“"https://dict.youdao.com/webtranslate/key?keyid=webfanyi-key-getter&sign=823beceb3a00c3cd2e42323fda20056c&client=fanyideskweb&product=webfanyi&appVersion=1.0.0&vendor=web&pointParam=client,mysticTime,product&mysticTime=1730355400284&keyfrom=fanyi.web&mid=1&screen=1&model=1&network=wifi&abtest=0&yduuid=abcdefg”"
     MD5=hashlib.md5()
     MD5.update(string.encode())#使用hash时要将字符串的编码改为bytes类型
     sign=MD5.hexdigest()
@@ -59,6 +59,9 @@ def send_request(data):
 
     return response.text#这个就是有道翻译发给我们的翻译结果，但是是密文，需要解密
 
+
+
+
 def get_translation(ciphertext):#解密得到的response.text的密文：转化为明文。（利用到了AES加密的CBC模式，存在密钥key，和偏移量Iv）
 
     Key="ydsecret://query/key/B*RGygVywfNBwpmBaZg*WT7SIOUP2T0C9WHMZN39j^DAdaZhAnxvGcCY6VYFwnHl".encode()#编码为bytes类型
@@ -85,6 +88,10 @@ def get_translation(ciphertext):#解密得到的response.text的密文：转化�
         text_list=list(i)
         break
     return text_list
+
+
+
+
 
 
 

@@ -7,6 +7,7 @@ from Crypto.Util.Padding import unpad #清除生成AES解密以后的填充区�
 import re
 import tkinter as tk
 from tkinter import messagebox
+from settings import *
 
 #打包形成可执行为文件
 #pyinstaller -F -w -i      t.ico          youdao_And_tkinter.py
@@ -102,9 +103,10 @@ class GUi:
             headers={
                 'Referer': 'https://fanyi.youdao.com/',
                 "User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36 Edg/130.0.0.0",
-                "Cookie":"OUTFOX_SEARCH_USER_ID=-500824836@113.57.237.83; OUTFOX_SEARCH_USER_ID_NCOO=1469770841.1152; DICT_DOCTRANS_SESSION_ID=NjY0NzdjZDktYmQ1ZS00ZWQ2LTljOWMtZTc2NmFlMzk4Y2Uw; _uetsid=c7c7e880945911efa2836922858ec728; _uetvid=93f31c607d7a11ef8214cf73d83f3357",
-
+                "Cookie" :Cookie,
             }
+
+
             response=requests.get(url=url,headers=headers)
             response.raise_for_status()
             response.encoding=response.apparent_encoding
@@ -129,38 +131,46 @@ class GUi:
             language_string=fp.read()
         return language_string                        
 
+
+
     def get_Time_Sign(self):#获取加密后的sign（构造加密函数）
         mysticTime=int(time.time()*1000)
-        string=f"client=fanyideskweb&mysticTime={mysticTime}&product=webfanyi&key=fsdsogkndfokasodnaso"  #sign加密前的字符串()#fsdsogkndfokasodnaso要抓包得到，有两个值，选择第二个（第一个为asdjnjfenknafdfsdfsd#第一个url的sign的key=），也可以在第一个url中获得“"https://dict.youdao.com/webtranslate/key?keyid=webfanyi-key-getter&sign=823beceb3a00c3cd2e42323fda20056c&client=fanyideskweb&product=webfanyi&appVersion=1.0.0&vendor=web&pointParam=client,mysticTime,product&mysticTime=1730355400284&keyfrom=fanyi.web&mid=1&screen=1&model=1&network=wifi&abtest=0&yduuid=abcdefg”"
+
+        # key=Vy4EQ1uwPkUoqvcP1nIu6WiAjxFeA3Y9 中的key也是在https://dict.youdao.com/webtranslate/key?keyid=webfanyi-key-getter&sign=7de12753d8e473c6f0068a28ea73c630&client=fanyideskweb&product=webfanyi&appVersion=1.0.0&vendor=web&pointParam=client,mysticTime,product&mysticTime=1736665826733&keyfrom=fanyi.web&mid=1&screen=1&model=1&network=wifi&abtest=0&yduuid=abcdefg
+        # 的secretKey,是会改变的
+
+        string=f"client=fanyideskweb&mysticTime={mysticTime}&product=webfanyi&key={SecretKey}"  #sign加密前的字符串()#fsdsogkndfokasodnaso要抓包得到，有两个值，选择第二个（第一个为asdjnjfenknafdfsdfsd#第一个url的sign的key=），也可以在第一个url中获得“"https://dict.youdao.com/webtranslate/key?keyid=webfanyi-key-getter&sign=823beceb3a00c3cd2e42323fda20056c&client=fanyideskweb&product=webfanyi&appVersion=1.0.0&vendor=web&pointParam=client,mysticTime,product&mysticTime=1730355400284&keyfrom=fanyi.web&mid=1&screen=1&model=1&network=wifi&abtest=0&yduuid=abcdefg”"
         MD5=hashlib.md5()
         MD5.update(string.encode())#使用hash时要将字符串的编码改为bytes类型
         sign=MD5.hexdigest()
         return [mysticTime,sign]  
 
+
+
     def get_data(self,from_lang,to_lang,text_to_be_translated):#得到发送post的data数据
         mysticTime,sign=self.get_Time_Sign()
         data={
-        "i": text_to_be_translated,
-        "from": from_lang,
-        "to": to_lang,
-        "useTerm": "false",
-        "domain": "0",
-        "dictResult": "true",
-        "keyid": "webfanyi",
-        "sign": sign,
-        "client": "fanyideskweb",
-        "product": "webfanyi",
-        "appVersion": "1.0.0",
-        "vendor": "web",
-        "pointParam": "client,mysticTime,product",
-        "mysticTime": f"{mysticTime}",
-        "keyfrom": "fanyi.web",
-        "mid": "1",
-        "screen": "1",
-        "model": "1",
-        "network": "wifi",
-        "abtest": "0",
-        "yduuid": "abcdefg",
+            "i": text_to_be_translated,
+            "from": from_lang,
+            "to": to_lang,
+            "useTerm": "false",
+            #"domain": "0",
+            "dictResult": "true",
+            "keyid": "webfanyi",
+            "sign": sign,
+            "client": "fanyideskweb",
+            "product": "webfanyi",
+            "appVersion": "1.0.0",
+            "vendor": "web",
+            "pointParam": "client,mysticTime,product",
+            "mysticTime": f"{mysticTime}",
+            "keyfrom": "fanyi.web",
+            "mid": "1",
+            "screen": "1",
+            "model": "1",
+            "network": "wifi",
+            "abtest": "0",
+            "yduuid": "abcdefg",
         }
         return data    
                          
@@ -169,8 +179,7 @@ class GUi:
         headers={
             'Referer': 'https://fanyi.youdao.com/',
             "User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36 Edg/130.0.0.0",
-            "Cookie":"OUTFOX_SEARCH_USER_ID=-500824836@113.57.237.83; OUTFOX_SEARCH_USER_ID_NCOO=1469770841.1152; DICT_DOCTRANS_SESSION_ID=NjY0NzdjZDktYmQ1ZS00ZWQ2LTljOWMtZTc2NmFlMzk4Y2Uw; _uetsid=c7c7e880945911efa2836922858ec728; _uetvid=93f31c607d7a11ef8214cf73d83f3357",
-
+            "Cookie":Cookie,
         }
 
         response=requests.post(url=url,headers=headers,data=data)
@@ -195,8 +204,11 @@ class GUi:
         text_dictionary=unpad(cipher.decrypt(ciphertext),AES.block_size)#cipher.decrypt()为AES对象的解密函数，AES加密时通常会对明文进行填充，以确保其长度是块大小的整数倍。解密后需要去除填充。
                                                                             #unpad（）是一个Crypto.Util.Padding中的函数，用于去除填充，AES.block_size是AES的块大小（通常是16字节）
         text_dictionary=text_dictionary.decode()#解码
-
+        print(text_dictionary)
         textRegexes=re.compile(r'translateResult.*"tgt":"(.*)","src":"(.*)",')#提取明文中的翻译部分，tgt对应下的为翻译结果，src为要翻译的内容
+
+ 
+
         text_translation_list=textRegexes.findall(text_dictionary)
         if text_translation_list==[]:
             print("翻译失败")
@@ -204,51 +216,15 @@ class GUi:
         for i in text_translation_list:
             text_list=list(i)
             break
-        return text_list                         
-                             
+        return text_list          
 
+                             
 
 
 
 if __name__=="__main__":
     a=GUi()
     a.root.mainloop()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# if __name__=="__main__":
-
-
-
-
-
-    
-
-
-
-
-
-
-
-
-
 
 
 
